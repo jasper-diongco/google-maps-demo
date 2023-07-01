@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_demo/maps.dart';
+import 'package:google_maps_demo/select_location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +27,10 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MapSample(),
+      routes: {
+        '/': (context) => const MyHomePage(title: 'Maps Demo'),
+        '/select_location' : (context) => const SelectLocationPage()
+      },
     );
   }
 }
@@ -96,13 +101,17 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            ElevatedButton(onPressed: () {
+              Navigator.pushNamed(context, '/select_location').then((value) {
+                LatLng position = value as LatLng;
+
+                SnackBar snackBar = SnackBar(
+                  content: Text('latitude: ${position.latitude}, longitude: ${position.longitude}'),
+                );
+
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              });
+            }, child: const Text('Select Location'))
           ],
         ),
       ),

@@ -178,6 +178,9 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Select Location'),
+      ),
       body: GoogleMap(
         mapType: MapType.normal,
         markers: markers,
